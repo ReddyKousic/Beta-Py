@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "env": {
+    "SECRET_KEY": "your_secret_key_here",
+    "MYSQL_HOST": "mysql-202fbrdp-k.alwaysdata.net",
+    "MYSQL_USER": "322595",
+    "MYSQL_PASSWORD": "kousicreddy2211",
+    "MYSQL_DB": "202fbrdp-k_chatrtc"
+  },
+  "public": false
+}
