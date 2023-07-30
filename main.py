@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, session, jsonify
 from flask_socketio import SocketIO
 import MySQLdb
 from datetime import datetime
+import pytz
+  
+
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "your_secret_key_here"
@@ -27,7 +30,7 @@ A13="https://firebasestorage.googleapis.com/v0/b/kr-cdn.appspot.com/o/13.webp?al
 A14="https://firebasestorage.googleapis.com/v0/b/kr-cdn.appspot.com/o/14.webp?alt=media&token=83fba94d-a619-4411-a419-b758c841802f"
 A15="https://firebasestorage.googleapis.com/v0/b/kr-cdn.appspot.com/o/15.webp?alt=media&token=37b07c90-fc61-4059-8943-ff670ee0672b"
 ###################################################################################
-
+IST = pytz.timezone('Asia/Kolkata')
 socketio = SocketIO(app)
 mysql = MySQLdb.connect(
     host=app.config["MYSQL_HOST"],
@@ -106,7 +109,7 @@ def message(data):
     message_text = data["data"]
     message_profile = finalimg(data["Image"])
 
-    datetime_now = datetime.now()
+    datetime_now = datetime.now(IST)
 
     # Format the datetime as desired: date:monthname:year and 12-hr time format
     formatted_date = datetime_now.strftime("%d %B %Y")
