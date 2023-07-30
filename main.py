@@ -134,7 +134,7 @@ def get_chat_history():
     with mysql.cursor() as cursor:
         cursor.execute("SELECT message, datetime, profile FROM messages ORDER BY id DESC LIMIT 100")
         rows = cursor.fetchall()
-        print(jsonify({"messages": [{"message": row[0], "datetime": row[1],"profile":finalimg(row[2])} for row in rows]}))
+
     return jsonify({"messages": [{"message": row[0], "datetime": row[1],"profile":finalimg(row[2])} for row in rows]})
 
 if __name__ == "__main__":
