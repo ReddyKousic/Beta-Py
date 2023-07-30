@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="tooltip">You have to select an icon!</div>
+        <h2>Select your icon</h2>
+        <div class="grid-container">
+
+
+            <div class="grid-item">
+                <img class="image" onclick="Icoimg('A5')" src="{{A5}}" alt="SA-2">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A6')" src="{{A6}}" alt="SA-2">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A2')" src="{{A2}}" alt="SA-1">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A3')" src="{{A3}}" alt="LL-1">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A4')" src="{{A4}}" alt="LL-2">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A1')" src="{{A1}}" alt="Cat">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A10')" src="{{A10}}" alt="SA-4">
+            </div>
+
+
+
+
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A7')" src="{{A7}}" alt="Giraffe">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A8')" src="{{A8}}" alt="Anon">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A9')" src="{{A9}}" alt="Red-man">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A11')" src="{{A11}}" alt="Batman">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A12')" src="{{A12}}" alt="SA-5">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A13')" src="{{A13}}" alt="SA-6-W">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A14')" src="{{A14}}" alt="SA-8-W">
+            </div>
+
+
+
+            <div class="grid-item">
+
+                <img class="image" onclick="Icoimg('A15')" src="{{A15}}" alt="SA-7-W">
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+<div class="preloader">
+    <div class="spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", () => {
+        const preloader = document.querySelector(".preloader");
+        preloader.style.display = "none"; // Hide the pre-loader when content is loaded
+    });
+</script>
+<header>
+    <div class="head">
+        <h1>{{name}}</h1>
+    </div>
+</header>
+<section>
+    <div class="main">
+        <div class="maininmain" id="chat-box">
+        </div>
+    </div>
+
+    <div class="form">
+        <form onsubmit="sendMessage(event)">
+            <input type="text" id="message-input" placeholder="Type your message..." autofocus="true">
+            <button id="msgsub" type="submit"><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960"
+                    width="48">
+                    <path d="M97-136v-248l336-96-336-98v-246l813 344L97-136Z" />
+                </svg> </button>
+        </form>
+
+
+    </div>
+</section>
+<div class="credits">
+    <p class="left-c">We Use <span>Advanced Encryption Standard(AES).</span></p>
+    <p class="right-c">From Kousic.</p>
+</div>
+<script type="text/javascript">
+
+
+    var setup = false;
+    let tooltips = false;
+
+    const questionMark = document.querySelector('.close');
+    const tooltip = document.querySelector('.tooltip');
+
+    questionMark.addEventListener('click', () => {
+        if (setup) {
+            tooltip.style.display = 'none';
+            document.getElementById("myModal").style.display = "none";
+        } else {
+            tooltips = true
+            tooltip.style.display = 'block';
+            setTimeout(() => {
+                tooltip.style.display = 'none';
+            }, 5000);
+            tooltips = true
+        }
+
+    });
+    var Icoimga = "";
+    function Icoimg(Img) {
+        Icoimga = Img;
+        console.log(Icoimga);
+        document.getElementById("myModal").style.display = "none";
+    }
+
+
+
+    window.onclick = function (event) {
+        var modal = document.getElementById("myModal");
+        if (event.target === modal) {
+            tooltip.style.display = 'none';
+        }
+    };
+    var socketio = io.connect();
+
+    const messages = document.getElementById("chat-box");
+    const createMessage = (msg, datetime, profile) => { /*
+        const content = `
+        <div class="text">
+            <span>
+                ${msg}
+            </span>
+            <span class="muted">
+                ${datetime}
+            </span>
+        </div>
+        `;
+        messages.innerHTML += content;*/
+
+
+        var chatBox = document.getElementById('chat-box');
+        var timestamp = datetime;
+
+        var messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+
+        // Create a new div inside the 'message' div and add the 'xdiv' class
+        var xDiv = document.createElement('div');
+        xDiv.classList.add('xdiv');
+        var profileimg = document.createElement('img')
+        profileimg.src = profile;
+        profileimg.style.width = "50px"; 
+        xDiv.appendChild(profileimg);
+
+
+
+        // Create a span for the arrow symbol
+        var arrowSpan = document.createElement('span');
+        arrowSpan.textContent = "➟";
+        arrowSpan.style.marginRight = "1vw";
+        arrowSpan.style.marginLeft = "1vw"; // Add some space between the image and the arrow symbol
+        // Add some space between the image and the arrow symbol
+
+        var dtdiv = document.createElement('div');
+        dtdiv.classList.add('dtdiv');
+        dtdiv.innerHTML += datetime;
+
+
+
+
+
+        messageElement.appendChild(xDiv);
+        messageElement.appendChild(arrowSpan);
+        messageElement.innerHTML += msg; // Append decrypted text
+        messageElement.appendChild(dtdiv);
+
+        // Set the 'data-key' attribute to identify the message element by its key
+
+
+        chatBox.appendChild(messageElement);
+
+        // Scroll to the bottom of the chat box to show the latest message.
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+
+    socketio.on("message", (data) => {
+        createMessage(data.message, data.datetime, data.Img);
+        console.log(data.message, data.datetime, data.Img);
+    });
+
+    const sendMessage = (event) => {
+        event.preventDefault(); // Prevent form submission
+
+        const message = document.getElementById("message-input");
+        if (message.value === "") return;
+        socketio.emit("message", { data: message.value, Image: Icoimga });
+        message.value = "";
+    };
+    // Load chat history when the page is ready
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch("/history")
+            .then((response) => response.json())
+            .then((data) => {
+                const { messages } = data;
+                messages.reverse().forEach((message) => {
+                    createMessage(message.message, message.datetime, message.profile);
+                });
+            })
+            .catch((error) => console.error("Error loading chat history:", error));
+    });
+</script>
+{% endblock %}
